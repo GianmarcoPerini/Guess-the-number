@@ -13,24 +13,34 @@ window.onload = input.value = 0;
 hScore.innerHTML = getScore();
 
 button.addEventListener("click", function () {
-  if (input.value > random) {
-    totScore--;
-    msg.innerHTML = "📈 Too high!";
-    score.innerHTML = `${totScore}`;
-  } else if (input.value < random) {
-    totScore--;
-    msg.innerHTML = "📉 Too low!";
-    score.innerHTML = `${totScore}`;
+  if (!input.value) {
+    msg.innerHTML = "⛔️ No number!";
   } else {
-    msg.innerHTML = "WINNER!!";
-    hScore.innerHTML = getScore(); // gain the hight score value
-    score.innerHTML = `${totScore}`; // set the temporary win score value
-    body.style.background = "green";
-    input.disabled = true;
-    // if there is new HS value
-    if (getScore() < totScore) {
-      setScore(totScore); // set new HS
-      hScore.innerHTML = getScore(); // and get it
+    if (totScore == 0) {
+      body.style.background = "red";
+      msg.innerHTML = "💥 You lost the game!";
+      input.disabled = true;
+    } else {
+      if (input.value > random) {
+        totScore--;
+        msg.innerHTML = "📈 Too high!";
+        score.innerHTML = `${totScore}`;
+      } else if (input.value < random) {
+        totScore--;
+        msg.innerHTML = "📉 Too low!";
+        score.innerHTML = `${totScore}`;
+      } else {
+        msg.innerHTML = "WINNER!!";
+        hScore.innerHTML = getScore(); // gain the hight score value
+        score.innerHTML = `${totScore}`; // set the temporary win score value
+        body.style.background = "green";
+        input.disabled = true;
+        // if there is new greater HS value
+        if (getScore() < totScore) {
+          setScore(totScore); // set new HS
+          hScore.innerHTML = getScore(); // and get it
+        }
+      }
     }
   }
 });
@@ -41,7 +51,7 @@ again.addEventListener("click", function () {
   input.value = 0;
 });
 
-// reset the localstorage score to 0 and set the score counter
+// reset localstorage score to 0 and set the HS counter
 reset.addEventListener("click", function () {
   setScore(0);
   hScore.innerHTML = getScore();
@@ -51,11 +61,11 @@ reset.addEventListener("click", function () {
 function setScore(totScore) {
   localStorage.setItem("score", totScore);
 }
-// recover value from localstorage
+// gain value from localstorage
 function getScore() {
   return localStorage.getItem("score");
 }
-// get rundom int number from min to max inclusive
+// get random int number from min to max inclusive
 function getRandom(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
