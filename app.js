@@ -1,13 +1,14 @@
+let body = document.querySelector("body");
 let input = document.querySelector(".guess");
 let button = document.querySelector(".check");
+let num = document.querySelector(".number");
 let score = document.querySelector(".score");
-let msg = document.querySelector(".message");
-let body = document.querySelector("body");
-let again = document.querySelector(".again");
+let totScore = 20;
 let hScore = document.querySelector(".highscore");
+let msg = document.querySelector(".message");
+let again = document.querySelector(".again");
 let reset = document.querySelector(".reset");
 let random = getRandom(1, 20);
-let totScore = 20;
 
 window.onload = input.value = 0;
 hScore.innerHTML = getScore();
@@ -16,24 +17,27 @@ button.addEventListener("click", function () {
   if (!input.value) {
     msg.innerHTML = "⛔️ No number!";
   } else {
-    if (totScore == 0) {
-      body.style.background = "red";
+    if (totScore < 1) {
+      body.style.background = "#fa3737";
       msg.innerHTML = "💥 You lost the game!";
       input.disabled = true;
     } else {
       if (input.value > random) {
         totScore--;
         msg.innerHTML = "📈 Too high!";
-        score.innerHTML = `${totScore}`;
+        score.innerHTML = totScore;
       } else if (input.value < random) {
         totScore--;
         msg.innerHTML = "📉 Too low!";
-        score.innerHTML = `${totScore}`;
+        score.innerHTML = totScore;
       } else {
+        num.style.width = "30rem";
+        num.style.transition = "all 300ms";
+        num.innerHTML = random;
         msg.innerHTML = "WINNER!!";
         hScore.innerHTML = getScore(); // gain the hight score value
-        score.innerHTML = `${totScore}`; // set the temporary win score value
-        body.style.background = "green";
+        score.innerHTML = totScore; // set the temporary win score value
+        body.style.background = "#60b347";
         input.disabled = true;
         // if there is new greater HS value
         if (getScore() < totScore) {
